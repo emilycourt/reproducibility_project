@@ -1,0 +1,5 @@
+/nitf/head/title/text()
+/nitf//rights/text()
+/nitf//rights.startdate/text()
+/nitf//alt-code/@id
+/nitf/head/tobject/tobject.property/@tobject.property.type

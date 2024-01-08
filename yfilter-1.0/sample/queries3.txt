@@ -1,0 +1,10 @@
+/*/*[body.head/byline/*//alt-code]//body.end/tagline/a[@style=15]/location
+/*[@version=1]/body[body.head/*/body.content/bq]//hl2/*
+//nitf[@change.time=1]/head[title]/*
+/nitf[@change.date=1]/head[iim/ds]/revision-history
+/nitf[body/body.head/dateline/location/city]/head[@id=4]/revision-history
+//body//body.content[5]/ol//li/location[sublocation]
+//nitf[@change.date=1]/head[iim/ds]/title
+/*[head/docdata/doc.rights]/body[@style=7]/body.end//chron
+/*[@change.time=1][head/docdata/date.issue]/body//bibliography
+/nitf[body/*//li//br]/head/iim/ds[@value=4]

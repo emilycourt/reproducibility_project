@@ -1,0 +1,10 @@
+/nitf//body/body.end/bibliography
+/nitf/head//tobject.subject
+/*//title
+//revision-history
+//body//pronounce/org
+/nitf/*/body.content/p/money
+/nitf/body/*/note/body.content/p
+/*//correction
+/nitf/head/tobject/tobject.property
+/nitf/body//body.content/ul/li/money

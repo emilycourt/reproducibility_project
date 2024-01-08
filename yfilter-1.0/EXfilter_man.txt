@@ -1,0 +1,68 @@
+NAME
+	 edu.berkeley.cs.db.yfilter.filter.EXfilter
+	 - Processes queries on a set of documents, and outputs 
+	   the query results and the processing performance. 
+
+SYNOPSIS
+	 java edu.berkeley.cs.db.yfilter.filter.EXfilter
+		(DOC_FILE | DOC_DIR) QUERY_FILE [options]
+
+PARAMETERS
+
+DOC_FILE | DOC_DIR
+	 XML document or Directory containing a set of XML documents.
+
+QUERY_FILE
+	 File containing the queries. 
+
+OPTIONS
+
+--num_docs=NUM
+	 Number of documents to be processed.
+
+--num_queries=NUM
+	 Number of queries to be processed.
+
+--profile
+	 Enables profiling.
+		NOTE: The profiling results are output to "profile.txt" in the current working directory. 
+
+--result=LEVEL
+	 Result level. LEVEL can be one of the following: 
+		NONE - no output.
+		BOOLEAN - if the query is matched (TRUE/FALSE).   
+		ONE  - one matching element.
+		ALL  - all matching elements.
+		     NOTE: The default setting for benchmarking is BOOLEAN. The query results are
+		     output to "result.txt" in the current working directory, if the --output option 
+		     is not set to "indiv". 
+
+--output=indiv
+	 Output query results to individual files.
+		NOTE: Once output is set to "indiv", the query results are output to multiple files 
+		in the working directory, one per XML document, in order of document execution.
+
+--nfa_opt=LEVEL
+	 The NFA execution level. LEVEL can be one of the following:
+		2 -- for NFA execution and result collection
+		1 -- for NFA execution and simplified result collection
+		     if queries don't contain predicates
+		0 -- for NFA execution only
+		     NOTE: The NFA execution level partially depends on the result level.
+		     nfa_opt can be set to 1, only if the result level is NONE, BOOLEAN, or ONE.
+		     nfa_opt can be set to 0, only if the result level is NONE.
+		     The default setting for benchmarking is: result = BOOLEAN, nfa_opt = 1.
+
+--msg_preparse=FLAG
+	 Preparse messages. FLAG can be TRUE or FALSE.
+
+--warmup=VALUE
+	 Warm-up the filter. VALUE can be one of the following two cases:
+		1) an XML document file used for warming up or, 
+		2) a positive integer, indicating the number of documents 
+		   to be used for warming up if the input is an XML directory.
+
+DIAGNOSTICS
+
+BUGS
+

@@ -1,0 +1,10 @@
+/nitf/*[4]/meta[@name=9]
+/nitf/body[@lang=8]/body.head/hedline/hl2[text()=11]/org
+/nitf[@change.date=1]/head/title[text()=9]
+/nitf/*[@id=11][@id=9]/docdata/evloc
+//tobject[@id=12][@id=3]/tobject.subject
+/nitf[@version=1]/body/body.end[5]/tagline/num/frac
+/nitf/body/body.head[1]/series[5]
+/nitf[@change.date=1][@change.time=1]//title
+/*[@change.time=1]/head[@id=7]/pubdata
+/*/head[1]//pubdata[3]

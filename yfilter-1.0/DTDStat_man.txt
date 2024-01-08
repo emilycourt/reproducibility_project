@@ -1,0 +1,24 @@
+NAME
+	 edu.berkeley.cs.db.yfilterplus.dtdscanner.DTDStat 
+	 - Reads an input DTD and generates statistics for query and XML generation. 
+
+SYNOPSIS
+	 java edu.berkeley.cs.db.yfilterplus.dtdscanner.DTDStat 
+		DTD_FILE	STAT_FILE	[MAX_VALUE] 
+
+PARAMETERS
+
+DTD_FILE
+	 Input DTD file.
+
+STAT_FILE
+	 Output file containing the statistics.
+
+MAX_VALUE
+	 Maximal number of values an attribute or element (if it can contain PCData) can take.
+	 This parameter is optional. By default, MAX_VALUE is set to 20.
+
+DIAGNOSTICS
+
+BUGS
+

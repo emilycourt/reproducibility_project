@@ -1,0 +1,12 @@
+edu.berkeley.cs.db.yfilter
+edu.berkeley.cs.db.yfilter.filter
+edu.berkeley.cs.db.yfilter.filterinstance
+edu.berkeley.cs.db.yfilter.icdedemo
+edu.berkeley.cs.db.yfilter.operators
+edu.berkeley.cs.db.yfilter.querymodule
+edu.berkeley.cs.db.yfilterplus.dtdscanner
+edu.berkeley.cs.db.yfilterplus.querygenerator
+edu.berkeley.cs.db.yfilterplus.queryparser
+edu.berkeley.cs.db.yfilterplus.queryparser.xpathparser
+edu.berkeley.cs.db.yfilterplus.utility
+edu.berkeley.cs.db.yfilterplus.xmltree

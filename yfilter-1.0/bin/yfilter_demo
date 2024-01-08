@@ -1,0 +1,2 @@
+#!/bin/bash
+java edu.berkeley.cs.db.yfilter.icdedemo.Framework ${YFILTER_HOME}

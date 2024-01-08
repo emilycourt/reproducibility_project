@@ -1,0 +1,22 @@
+		Installation instructions for YFilter 1.0 release.
+
+1. Software requirements
+
+      Install the Java Runtime Environment version 1.4.1 or later.
+      
+2. Configuration
+
+      Extract the YFilter package to a suitable directory.
+
+      	o Set the YFILTER_HOME environment variable to point to the YFilter installation directory.
+      	o Set the PATH to include $YFILTER_HOME/bin to access all the executables.
+      	o Set the CLASSPATH to include all the libraries in $YFILTER_HOME/include/ and the $YFILTER_HOME/build/yfilter.jar. 
+
+      At this point, you are ready to use YFilter.
+
+        o To compile the classes (if required), type 'make' in $YFILTER_HOME and add $YFILTER_HOME/build/classes to the CLASSPATH. 
+
+3. Further reading
+
+      	o $YFILTER_HOME/html/manual/YFilter_User_Manual.html is a good place to start using the package.
+      	o $YFILTER_HOME/doc/ contains further details on the technology.

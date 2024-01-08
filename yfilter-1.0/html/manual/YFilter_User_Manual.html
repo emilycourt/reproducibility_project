@@ -1,0 +1,807 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+  <title>YFilter User Manual</title>
+</head>
+<body>
+<h1 style="margin-left: 440px;"><a name="mozTocId110611"
+ class="mozTocH1"></a>YFilter User's Manual</h1>
+<br>
+<ul id="mozToc">
+<!--mozToc h1 1 h2 2 h4 3--><li><a href="#mozTocId110611">YFilter
+User's Manual</a>
+    <ul>
+      <li><a href="#mozTocId80686">Introduction to YFilter 1.0 Release</a></li>
+      <li><a href="#mozTocId282643"> Installation</a>
+        <ul>
+          <li><a href="#mozTocId255149">Software requirements</a></li>
+          <li><a href="#mozTocId154162">Configuration</a></li>
+        </ul>
+      </li>
+      <li><a href="#mozTocId33064">Using YFilter: Modes of Operation</a>
+        <ul>
+          <li><a href="#mozTocId989168">Command-line execution mode </a></li>
+          <li><a href="#mozTocId618982">Interactive mode</a></li>
+          <li><a href="#mozTocId227421">Command-line benchmarking mode </a></li>
+          <li><a href="#mozTocId509663">Library mode </a></li>
+          <li><a href="#mozTocId114682">Continuous server mode </a></li>
+        </ul>
+      </li>
+      <li><a href="#mozTocId202717">A YFilter Walkthrough</a></li>
+      <li><a href="#mozTocId784147">The Query Language</a></li>
+      <li><a href="#mozTocId513125">Architecture</a></li>
+      <li><a href="#mozTocId381801">Using the Test Suites</a></li>
+      <li><a href="#mozTocId360604">Creating Your Own Test Suites</a></li>
+      <li><a href="#mozTocId324233">Known Bugs and Limitations</a></li>
+      <li><a href="#mozTocId857946">More Information</a></li>
+    </ul>
+  </li>
+</ul>
+<br>
+<ol>
+  <li>
+    <h2><a name="mozTocId80686" class="mozTocH2"></a>Introduction to
+YFilter 1.0 Release</h2>
+  </li>
+  <div style="margin-left: 40px;">
+  <p>In this release, we include the filtering engine of the YFilter
+system developed at the University of California at Berkeley. This filtering
+engine provides fast, on-the-fly matching of XML messages to
+simultaneous queries that represent different data interests. 
+These queries consist of path expressions written in a subset of
+  <a href="http://www.w3.org/TR/xpath">XPath 1.0</a>. A detailed
+description of the language subset that this release supports is
+provided in <a href="#language">Section 5</a> of this manual.
+For each XML message, the engine returns a result for every matched query. 
+A result can be either
+a boolean value (i.e., True), or 
+a sequence of elements that matched the query. 
+
+This engine is implemented in the
+Java programming language, using J2SE1.4.x. </p>
+  <p>As systems built on YFilter are likely to be deployed in distributed
+wide-area environments, the number of users of such systems can easily
+grow into hundreds of thousands. YFilter was designed to handle
+such large numbers of queries. In particular, it provides high
+efficiency and
+scalability for filtering XML messages by exploiting commonality among all the queries. </p>
+  <p>YFilter was also designed to handle streaming XML data.
+Continuously arriving XML messages are processed on-the-fly in order of arrival.
+Lightweight event-based XML parsing is used to drive the execution
+of YFilter so that queries can be evaluated as a message is being parsed.
+YFilter does not use indexing or disk-oriented solutions for handling
+ the XML data. </p>
+  <p>The current release only contains the filtering engine of the YFilter system. 
+More advanced features such as further transforming the
+matching XML messages based on
+query-specific requirements
+are not included in this release. </p>
+  <p> </p>
+  </div>
+  <li>
+    <h2><a name="mozTocId282643" class="mozTocH2"></a> Installation</h2>
+  </li>
+  <div style="margin-left: 40px;"> 
+  <p>Since YFilter is a Java-based system, having a Java Runtime
+Environment is a pre-requisite. The filtering engine of YFilter also
+uses a number of libraries that are included in this package. This
+engine has been developed and tested on Linux (RedHat Fedora) and
+Windows (Cygwin).</p>
+  <p>The directory structure of the package is as described below.</p>
+  <blockquote>
+    <table>
+      <tbody>
+        <tr bgcolor="#e0e0e0">
+          <td width="100%">
+          <pre>COPYRIGHT 	lists the license under which this package has been released. <br>INSTALL 	is a quick and dirty installation guide.<br>bin/ 		contains the executable scripts in the package.          <br>build/ 		contains the JAR file and the classes.<br>tests/ 		contain the correctness and performance test suites.<br>sample/ 	contains sample DTD and query files for the GUI.          &nbsp;<br>include/	contains the required libraries.<br>src/		is the source tree containing the Java source files.<br>html/		contains this user manual and API documentation.<br>doc/		contains additional technical reference material.  <br></pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </blockquote>
+  <p> </p>
+  <ul>
+    <li>
+      <h4><a name="mozTocId255149" class="mozTocH4"></a>Software
+requirements</h4>
+    </li>
+    <div style="margin-left: 40px;">
+    <ul>
+      <li>Install the Java Runtime Environment version <a
+ href="http://java.sun.com/j2se/1.4.2/download.html">1.4.x</a>.<br>
+      </li>
+    </ul>
+    <p> </p>
+    </div>
+    <li>
+      <h4><a name="mozTocId154162" class="mozTocH4"></a>Configuration</h4>
+    </li>
+    <div style="margin-left: 40px;"> Download the YFilter package
+and extract it to a
+suitable directory.
+    <p> </p>
+    <ul>
+      <li>Set the <code>YFILTER_HOME</code> environment variable to
+point to the
+YFilter installation directory.</li>
+      <li> 
+      Add <code>$YFILTER_HOME/bin</code> to the <code>PATH</code> 
+      to access all the executables.</li>
+      <li> 
+      Add <code>$YFILTER_HOME/include/dtdparser113.jar</code>
+      and <code>$YFILTER_HOME/include/java_cup.jar</code> 
+      to the <code>CLASSPATH</code>.
+      </li>
+      <li>Add <code>$YFILTER_HOME/build/yfilter.jar</code> 
+      to the <code>CLASSPATH</code>.</li>
+    </ul>
+    <p> At this point, you are ready to use YFilter. </p>
+    <p> </p>
+    <ul>
+      <li>If you make changes to the source, <code>Makefile</code>s
+are also provided for re-compiling the classes. Note that in this case,
+you need to modify your <code>CLASSPATH</code> in order to use the
+newly compiled classes instead of the original <code>yfilter.jar</code>
+file. </li>
+    </ul>
+    </div>
+  </ul>
+  <p> </p>
+  </div>
+  <li>
+    <h2><a name="mozTocId33064" class="mozTocH2"></a>Using YFilter:
+Modes of operation</h2>
+  </li>
+  <div style="margin-left: 40px;">The YFilter package can be used in
+different modes. They are listed below.<br>
+  </div>
+  <ul>
+&nbsp;<li>
+      <h4><a name="mozTocId989168" class="mozTocH4"></a>Command-line
+execution mode<br>
+      </h4>
+This is the default mode of operation, which can be used by most users.
+In this mode, YFilter can be used to run a set of queries against one
+or multiple documents and return the query results. The YFilter engine
+has a bunch of
+parameters that can be used for fine-tuning it (more on this <a
+ href="#mozTocId227421">later</a> in this section). This mode selects
+default
+values for most of those parameters. To run YFilter in this mode, use
+the following command.
+      <blockquote>
+        <table>
+          <tbody>
+            <tr bgcolor="#e0e0e0">
+              <td width="100%">
+              <pre><br>% yfilter (DOC_FILE | DOC_DIR) QUERY_FILE<br></pre>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </blockquote>
+    </li>
+The two parameters are a document file (or a directory, in which case
+all the files ending in <code>.xml</code> are collected from the
+directory) and a query file. YFilter reads and parses queries from the
+query file, runs these queries against
+the document(s) and prints out
+the results. For example, the following command will process all the
+queries in the input query file with the specified XML document. <br>
+    <blockquote>
+      <table>
+        <tbody>
+          <tr bgcolor="#e0e0e0">
+            <td width="100%">
+            <pre><br>% yfilter sample/xmldocs/outFile1.xml sample/queries3.txt<br></pre>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </blockquote>
+In the next example, all the queries in the input query file will be
+processed with each XML document in the specified XML directory. <br>
+    <blockquote>
+      <table>
+        <tbody>
+          <tr bgcolor="#e0e0e0">
+            <td width="100%">
+            <pre><br>% yfilter sample/xmldocs/ sample/queries3.txt<br></pre>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </blockquote>
+    <li>
+      <h4><a name="mozTocId618982" class="mozTocH4"></a>Interactive mode</h4>
+    </li>
+The YFilter GUI (Graphical User Interface) can be launched by the
+following command.<br>
+    <blockquote>
+      <table>
+        <tbody>
+          <tr bgcolor="#e0e0e0">
+            <td width="100%">
+            <pre>	<br>% yfilter_demo<br></pre>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </blockquote>
+This can be used by the casual user as a gentle introduction to
+YFilter. <a href="#walk_through">Section 4</a> walks the user through
+this mode.
+    <p> </p>
+    <li>
+      <h4><a name="mozTocId227421" class="mozTocH4"></a>Command-line
+benchmarking mode<br>
+      </h4>
+This mode allows the expert user the most control over running the
+system. The <a href="../edu/berkeley/cs/db/yfilter/filter/EXfilter.html"><code>EXfilter</code></a>
+class provides a test driver for bulkloading a set of queries and
+benchmarking the performance of the filtering engine. In particular, it
+offers a number of parameters that can be tweaked for benchmarking
+purposes. These parameters and their values are described in their <a
+ href="../../EXfilter_man.txt">man</a> page.
+      <p> This class outputs the performance measurements to the <code>performance.txt</code>
+file, containing the execution time (msec) for each document as well as
+the average execution time over the entire set of documents (excluding
+those used for warming up the JVM). By default, the query results are
+output to the <code>result.txt</code> file. The cost of writing
+results to this file is not included in the measured execution time.
+When the <code>output</code> option of <code>EXfilter</code> is set to <code>indiv</code>, the
+query results are written to different files, one per document, in
+order of document execution. When the <code>profile</code> option of <code>EXfilter</code> is
+turned on, the profiling result is output to the <code>profile.txt</code>
+file. </p>
+      <p> Examples of uses of the parameters and some description of
+their impact on the measured performance of the engine can be found in <a
+ href="#benchmark">Section 7</a> of this manual. </p>
+    </li>
+    <li>
+      <h4><a name="mozTocId509663" class="mozTocH4"></a>Library mode<br>
+      </h4>
+This release also provides an <a href="../index.html">API</a>
+for using the filter as a library. This mode can be used by users who
+want
+to explore the package, to learn more about its internals, or to use
+YFilter in conjunction with
+other systems.
+      <p>The main filter class is <a
+ href="../edu/berkeley/cs/db/yfilter/filter/EXfilterBasic.html"><code>EXfilterBasic</code></a>.
+Example implementations using this class can be found in the <code>main</code>
+function of the <a href="../edu/berkeley/cs/db/yfilter/Run.html"><code>Run</code></a>
+class for command-line execution, and that of the <a
+ href="../edu/berkeley/cs/db/yfilter/filter/EXfilter.html"><code>EXfilter</code></a>
+class for command-line benchmarking. </p>
+      <p>Other important classes include <a
+ href="../edu/berkeley/cs/db/yfilterplus/querygenerator/PathGenerator.html"><code>PathGenerator</code></a>,
+that is used to generate XPath queries based on statistics, and <a
+ href="../edu/berkeley/cs/db/yfilterplus/dtdscanner/DTDStat.html"><code>DTDStat</code></a>,
+that collects such statistics from an input DTD file. </p>
+      <p> </p>
+    </li>
+  </ul>
+<!--  <div style="margin-left: 80px;">  </div> -->
+  <ul>
+    <li>
+      <h4><a name="mozTocId114682" class="mozTocH4"></a>Continuous
+server mode<br>
+      </h4>
+This mode of operation runs the filter in a client-sever fashion. This
+enables a client program to access the filter using the <a
+ href="../edu/berkeley/cs/db/yfilter/filterinstance/FilterInstance.html"><code>FilterInstance</code></a>
+API to add queries, bind documents, get results and delete queries. <code>FilterInstance</code>
+provides a Java Thread wrapper over the <code>EXfilterBasic</code>
+class. A
+sample client class called <a
+ href="../edu/berkeley/cs/db/yfilter/filterinstance/SimpleApp.html"><code>SimpleApp</code></a>
+is included in the release. Its member functions demonstrate the use of
+the API.&nbsp;
+      <blockquote>
+        <table>
+          <tbody>
+            <tr bgcolor="#e0e0e0">
+              <td width="100%">
+              <pre><br>% java edu.berkeley.cs.db.yfilter.filterinstance.SimpleApp <br></pre>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </blockquote>
+    </li>
+  </ul>
+  <li> <a name="walk_through"> </a>
+    <h2><a name="mozTocId202717" class="mozTocH2"></a>A YFilter
+Walkthrough</h2>
+  </li>
+  <div style="margin-left: 40px;">The following shell script starts up
+YFilter, <br>
+  <blockquote>
+    <table>
+      <tbody>
+        <tr bgcolor="#e0e0e0">
+          <td width="100%">
+          <pre><br>% yfilter_demo<br></pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </blockquote>
+&nbsp;
+which brings up the YFilter User Interface.
+  <p><img src="../img/MenuSystemSelect1.png"
+ style="width: 808px; height: 646px;" title="" alt="Main Menu"> </p>
+Click on <code>System-&gt;Select DTD</code> to select a DTD
+file used for generating queries. One example DTD, <a
+ href="http://www.nitf.org/">NITF</a> (News Industry Text Format), is
+available in the <code>sample</code> sub-directory.
+  <p><img src="../img/FileSelectDTD1.png"
+ style="width: 508px; height: 351px;" title="" alt="Select DTD"> </p>
+Optionally, select the queries to be bulk-loaded. Sample queries are
+also included in the <code>sample</code> sub-directory. This step is
+optional, as the system will dynamically generate queries based
+on the specified DTD to simulate online query submissions.
+  <p><img src="../img/FileBulkLoad1.png"
+ style="width: 508px; height: 351px;" title="" alt="Select queries"> </p>
+Once YFilter processes the DTD file and bulkloads queries from the
+query
+file, the demo is ready
+to be run.
+  <p><img src="../img/ControlsRun1.png"
+ style="width: 808px; height: 646px;" title="" alt="Ready"> </p>
+  <br>
+The system can be run in two ways. One way is to run documents through
+the filter, one at a time. This is achieved by clicking on <code>One
+Cycle</code>. This will run all the queries in the filter through one
+document, processing it completely. Once the cycle is complete, the processed 
+document and the results of the processing can be viewed. 
+Clicking on <code>View XML</code> will bring up
+the processed document in a new window.<br>
+  <br>
+  <p><img src="../img/ViewResults1.png"
+ style="width: 808px; height: 625px;" title="" alt="View XML"> </p>
+  <br>
+Click on <code>View all queries</code> to get a list of all the
+queries in the filter, against which the above document was processed.
+This opens up in a new window. <br>
+  <p><img src="../img/ViewQueriesInFilter.png"
+ style="width: 808px; height: 625px;" title="" alt="View all queries"> </p>
+  <br>
+Click
+on <code>View matched queries</code> to view the matched queries, which will
+also bring up a new window.
+In the <code>Matched Queries</code> window, click on <code>Next</code>
+to view a list of matched queries. The elements that matched a particular query
+can be viewed by entering the identifier of the query in the <code>View
+matched elements</code> text box at the bottom of the window.<br>
+  <br>
+  <p><img src="../img/ViewMatchedQueries1.png"
+ style="width: 410px; height: 507px;" title=""
+ alt="View matched queries"> </p>
+  <br>
+The other way to run the system is to run it continuously and monitor
+its performance. The user is advised to close query and XML viewers
+before running the system in this mode to reduce the system load on refreshing
+the viewers.
+Then click the <code>Run</code> button in the
+control panel and open the monitoring panels using
+the <code>Monitor</code> menu. Clicking on each menu item will bring
+up a window that displays the relevant parameters. <br>
+  <p><img src="../img/PerformanceMonitor.png"
+ style="width: 1072px; height: 509px;" title=""
+ alt="Performance Monitor"> </p>
+  <p><img src="../img/WorkloadMonitor.png"
+ style="width: 270px; height: 155px;" title="" alt="Workload Monitor"> </p>
+  </div>
+  <li> <a name="language"></a>
+    <h2><a name="mozTocId784147" class="mozTocH2"></a>The Query Language</h2>
+  </li>
+  <div style="margin-left: 40px;">In YFilter, query specifications for
+filtering XML documents consist of path expressions written in a subset
+of <a href="http://www.w3.org/TR/xpath">XPath 1.0</a>. These path
+expressions are used to address parts of an XML document. A path
+expression consists of a sequence of location steps. Each location step
+contains an axis, a node test and zero or more predicates. An axis
+specifies the hierarchical relationship between the nodes. YFilter
+supports two common axes, namely, the child axis "/" and the descendant
+axis "//". YFilter allows a node test to be an element name or a
+wildcard "*" that can match any element name. In addition, predicates
+can be applied to the text data, the attributes, or the positions of
+the addressed elements. They may also contain other path expressions
+(i.e., nested path expressions) to impose additional structural
+constraints.
+  <p>The syntax of the path expressions that YFilter supports is the
+following. </p>
+  <p><a name="path_expr"></a><tt>[1]&nbsp;
+PathExpr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+::=&nbsp;&nbsp;&nbsp; (( "/" | "//" ) <a href="#step_expr">StepExpr</a>
+)+ ( "/" <a href="#additional_select">AdditionalSelect</a>
+)?&nbsp; /*
+every path query is absolute */</tt> <br>
+  <a name="step_expr"></a><tt>[2]&nbsp;
+StepExpr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+::=&nbsp;&nbsp;&nbsp; ( <a href="#qname">QName</a>
+| "*") ( "[" <a href="#qname">Predicate</a>
+"]"
+)*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* no Boolean "and"/"or" */</tt> <br>
+  <a name="predicate"></a><tt>[3]&nbsp;
+Predicate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+::=&nbsp;&nbsp;&nbsp; <a href="#simple_predicate">SimplePredicate</a>
+| <a href="#path_predicate">PathPredicate</a></tt> <br>
+  <a name="simple_predicate"></a><tt>[4]&nbsp; SimplePredicate&nbsp;
+::=&nbsp;&nbsp;&nbsp; "@" <a href="#qname">QName</a>
+"=" ( <a href="#literal">Literal</a>
+| <a href="#positive_number">PositiveNumber</a>
+)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* attribute of an element */</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| <a href="#positive_number">PositiveNumber</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* position of an element */</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| "position" "(" ")" <a href="#comparator">Comparator</a> <a
+ href="#positive_number">PositiveNumber</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* position of an element */</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| "text" "(" ")" "=" ( <a href="#literal">Literal</a>
+| <a href="#positive_number">PositiveNumber</a>
+)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* text data of an element */</tt>
+  <br>
+  <a name="path_predicate"></a><tt>[5]&nbsp;
+PathPredicate&nbsp;&nbsp;&nbsp;
+::=&nbsp;&nbsp;&nbsp; ( ".//" | "./" )? <a href="#simple_step_expr">SimpleStepExpr</a>
+(( "/" | "//" ) <a href="#simple_step_expr">SimpleStepExpr</a>)*</tt> <br>
+  <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* nested paths are relative */</tt> </p>
+  <p><a name="simple_step_expr"></a><tt>[6]&nbsp;
+SimpleStepExpr&nbsp;&nbsp;
+::=&nbsp;&nbsp;&nbsp; ( <a href="#qname">QName</a>
+| "*") ( "[" <a href="#simple_predicate">SimplePredicate</a>
+"]"
+)*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* only one level of path nesting */</tt> <br>
+  <a name="additional_select"></a><tt>[7]&nbsp; AdditionalSelect
+::=&nbsp;&nbsp;&nbsp;
+"@" <a href="#qname">QName</a>
+| "text" "("
+")"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* select an attribute or the text data of the addressed element */</tt>
+  <br>
+  <a name="comparator"></a><tt>[8]&nbsp;
+Comparator&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+::=&nbsp;&nbsp;&nbsp; "=" | "!=" | "&gt;" | "&lt;" | "&gt;=" | "&lt;="</tt>
+  <br>
+  <a name="qname"></a><tt>[9]&nbsp;
+QName&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+::=&nbsp;&nbsp;&nbsp; <a href="#ncname">NCNAME</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* no namespace */</tt> <br>
+  <a name="ncname"></a><tt>[10]
+NCNAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+::=&nbsp;&nbsp;&nbsp; ( <a href="#Letter">Letter</a>
+| '_' ) ( <a href="#ncname_char">NCNameChar</a>
+)*</tt> <br>
+  <a name="ncname_char"></a><tt>[11]
+NCNameChar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+::=&nbsp;&nbsp;&nbsp; <a href="#Letter">Letter</a>
+| <a href="#digit">Digit</a>
+| '.' | '-' |
+'_'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* no combiningChar or extender */</tt> <br>
+  <a name="literal"></a><tt>[12]
+Literal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+::=&nbsp;&nbsp;&nbsp; "" [^"]* ""</tt> <br>
+  <a name="positive_number"></a><tt>[13] PositiveNumber&nbsp;&nbsp;
+::=&nbsp;&nbsp;&nbsp;
+[1-9][0-9]*</tt> <br>
+  <a name="digit"></a><tt>[14]
+Digit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+::=&nbsp;&nbsp;&nbsp; [0-9]</tt> <br>
+  <a name="Letter"></a><tt>[15]
+Letter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+::=&nbsp;&nbsp;&nbsp; [a-zA-Z]</tt> </p>
+  <p>This syntax allows YFilter to handle path expressions that
+are commonly used for filtering XML documents. Examples of such
+expressions include:&nbsp;<br>
+  </p>
+  <dl>
+    <ul>
+      <li>Simple path expressions:</li>
+    </ul>
+    <dl>
+      <dt>&nbsp;&nbsp;&nbsp; <code>/nitf/head/title</code></dt>
+      <dt>&nbsp;&nbsp;&nbsp; <code>/nitf/head/pubdata/*</code></dt>
+      <dt>&nbsp;&nbsp;&nbsp; <code>/nitf//person</code></dt>
+    </dl>
+    <ul>
+      <li>Path expressions with simple predicates:</li>
+    </ul>
+    <dl>
+      <dt>&nbsp;&nbsp;&nbsp; <code>/nitf/head/docdata[@doc-idref =
+"iptc.32a"]/series</code></dt>
+      <dt>&nbsp;&nbsp;&nbsp; <code>/nitf/head/tobject[@tobject.type =
+"news"]/*</code></dt>
+      <dt>&nbsp;&nbsp;&nbsp; <code>/nitf//person[text( ) = "John"]</code></dt>
+      <dt>&nbsp;&nbsp;&nbsp; <code>/nitf/head/revision-history[1]</code></dt>
+    </dl>
+    <ul>
+      <li>Path expressions with nested path expressions:</li>
+    </ul>
+    <dl>
+      <dt>&nbsp;&nbsp;&nbsp; <code>/nitf[head/tobject[@tobject.type =
+"news"]]//person[text( ) = "John"]</code></dt>
+      <dt>&nbsp;&nbsp;&nbsp; <code>/nitf[.//person[text( ) =
+"John"]]/body//headline</code></dt>
+    </dl>
+    <ul>
+      <li>Others:</li>
+    </ul>
+    <dl>
+      <dt>&nbsp;&nbsp;&nbsp; <code>/nitf//toject.property/@tobject.property.type</code></dt>
+      <dt>&nbsp;&nbsp;&nbsp; <code>/nitf//rights.startdate/text( )</code></dt>
+    </dl>
+  </dl>
+  <br>
+Note that YFilter currently does not support the full XPath 1.0
+language. Some path expressions that YFilter does not support, however,
+can be rewritten using the language subset described above. A
+notable example is that YFilter does not allow comparison between a
+nested path expression and a value,&nbsp; e.g., /nitf[.//person/text( )
+= "John"]/body. But this path expression can be simply transformed to
+an equivalent path
+expression, /nitf[.//person[text( ) = "John"]]/body, that YFilter does
+support . <br>
+  </div>
+  <p> </p>
+  <li> <a name="architecture"></a>
+    <h2><a name="mozTocId513125" class="mozTocH2"></a>Architecture</h2>
+    <div style="margin-left: 40px;">
+    <p>The architecture of the YFilter filtering engine is shown in the
+following figure. The primary inputs to the engine are the queries that
+represent interest specifications and the XML messages. The output
+consists of a boolean value or a sequence of elements for each query
+that has been satisfied by the incoming message. </p>
+    </div>
+    <p align="center"><img border="0"
+ src="../img/path_engine_architecture.gif"><br>
+Architecture of the YFilter filtering engine</p>
+    <div style="margin-left: 40px;">
+    <p>The major components of this architecture include:</p>
+    <ul>
+      <li>XQuery parser: It parses arriving queries and sends the
+parsing results to the compiler. It is implemented by the <a
+ href="../edu/berkeley/cs/db/yfilterplus/queryparser/package-summary.html"><code>queryparser</code></a>
+package. </li>
+      <li>XML parser: Based on an event-based XML parsing tool, it
+produces parsing events, passes them to the runtime system to drive
+query execution, and incrementally constructs an internal
+representation of the XML message, i.e., a node labeled tree, for later
+query processing. The XML parser is implemented by the <a
+ href="../edu/berkeley/cs/db/yfilterplus/xmltree/package-summary.html"><code>xmltree</code></a>
+package. </li>
+      <li>Compiler: The compiler of YFilter constructs execution plans
+for all the queries exploiting the commonality among these queries. It
+is implemented by the <a
+ href="../edu/berkeley/cs/db/yfilter/querymodule/package-summary.html"><code>querymodule</code></a>
+package. </li>
+      <li> Runtime: When processing a message, the runtime system of
+YFilter executes the constructed query plans. By doing so, it matches
+all the queries against the message in a shared fashion. As mentioned
+above, it returns a result (i.e., a boolean value or a sequence of
+elements) for each query that has been satisfied. The runtime system is
+implemented by the <a
+ href="../edu/berkeley/cs/db/yfilter/operators/package-summary.html"><code>operators</code></a>
+package. </li>
+    </ul>
+    <p>The main filter package is <a
+ href="../edu/berkeley/cs/db/yfilter/filter/package-summary.html"><code>filter</code></a>.
+<!--(see the <a href="../../EXfilter_man.txt">man</a> page for details). -->
+This package orchestrates the various components listed above to
+provide the filtering service. </p>
+    </div>
+  </li>
+  <li> <a name="benchmark"></a>
+    <h2><a name="mozTocId381801" class="mozTocH2"></a>Using the Test
+Suites</h2>
+    <div style="margin-left: 40px;">
+    <p>In this release, we include tests suites for both correctness
+tests and performance tests of the filtering engine. </p>
+    <ul>
+      <li>
+        <h4>Correctness Tests</h4>
+      </li>
+<!-- <div style="margin-left: 40px;"> -->
+      <p> Correctness tests are provided to program developers who
+modify the YFilter source code for their targeted applications. To
+ensure that the filtering engine performs correctly, those developers
+are strongly encouraged to re-run the correctness tests following the
+steps listed below. </p>
+      <ul>
+        <li><code>cd $YFILTER_HOME/tests/</code>. </li>
+        <li>Extract a <code>correct.out</code> directory from either <code>correct_unix.out.tgz</code>
+(if you are a UNIX user) or <code>correct_win.out.zip</code> (if you
+are a Windows user). Place <code>correct.out</code> under the current
+directory, i.e., <code>$YFILTER_HOME/tests/</code>. </li>
+        <li>Run the <code>scripts/test.yfilter.sh</code> script.</li>
+        <li>Run the <code>scripts/test.diff.sh</code> script.</li>
+        <li>Visit the <code>diff.out</code> sub-directory created
+under <code>$YFILTER_HOME/tests</code>. For each of the five
+sub-directories of <code>diff.out</code>, check if all the <code>".diff"</code>
+files have a size of 0. If all the files in the five sub-directories
+are empty, the filtering engine has passed the correctness tests. </li>
+      </ul>
+      <p></p>
+      <li>
+        <h4>Performance Tests</h4>
+      </li>
+<!-- <div style="margin-left: 40px;">  -->
+      <p> Test suites for benchmarking are also included in <code>$YFILTER_HOME/tests/</code>.
+The scripts for running the benchmarking tests are available in the <code>scripts</code>
+subdirectory. The names of these scripts start with "<code>vary</code>".
+These scripts show examples of using different parameters of 
+<a href="../edu/berkeley/cs/db/yfilter/filter/EXfilter.html"><code>EXfilter</code></a>
+(see the <a href="../../EXfilter_man.txt">man</a> page for a description of them), 
+and the measured results demonstrate the impact of these parameters on the
+performance of the engine. </p>
+      <p> The test provided by <a
+ href="../../tests/scripts/varyNumDistinctQueries.sh"> <code>varyNumDistinctQueries.sh</code></a>
+focuses on <i>distinct</i> path expressions that do not contain any
+predicates. 
+<ul>
+<li>It reads such path expressions from <code>queries-153928-d.txt</code> in the 
+<code>$YFILTER_HOME/tests/benchmark_simple_paths/</code> subdirectory (please unzip the query file first). </li>
+<li>It varies the number of processed queries from 1,000 to 
+150,000 by using the <code>num_queries</code> parameter of 
+<code>EXfilter</code>.</li> 
+<li>It writes the
+performance measurements back to <code>$YFILTER_HOME/tests/benchmark_simple_paths/</code>. </li>
+</ul>
+
+      </p>
+      <p>The test provided by <a
+ href="../../tests/scripts/varyNumRandomQueries.sh"> <code>varyNumRandomQueries.sh</code></a>
+focuses on <i>random</i> path expressions without any predicates. This test is run similarly as 
+the previous one, except that it reads queries from <code>queries-500000.txt</code> in the 
+<code>$YFILTER_HOME/tests/benchmark_simple_paths/</code> subdirectory (please also unzip the query file first), and
+varies the number of the processed queries from 1,000 to 500,000. 
+      </p>
+      <p>The test in <a
+ href="../../tests/scripts/varyNumRandomQueries_PathNavi.sh"> <code>varyNumRandomQueries_PathNavi.sh</code></a>
+considers the same set of queries as <code>varyNumRandomQueries.sh</code>.
+But it sets the engine in such a mode that the engine only performs operations for matching
+path expressions, but not for collecting the results on which queries
+are matched. It does so by first setting the <code>result</code>
+parameter of <code>EXfilter</code> to <code>NONE</code>, and then
+setting the <code>nfa_opt</code> parameter to 0 (note that the order
+of setting these parameters matters here). The results of this test,
+written to the same sub-directory as above, contain only the cost of
+the core operations for matching path expressions, which can be used to
+truly compare different path matching engines. </p>
+      
+      <p><!-- </div> --> </p>
+    </ul>
+    </div>
+  </li>
+  <li>
+    <h2><a name="mozTocId360604" class="mozTocH2"></a>Creating Your Own
+Test Suites</h2>
+    <div style="margin-left: 40px;">
+    <p>The user can create his own test
+suites using the sub-packages included in this release. Creating a new
+test takes the following three steps. </p>
+    <ul>
+      <li>Parse a DTD</li>
+      <p> The <a
+ href="../edu/berkeley/cs/db/yfilterplus/dtdscanner/DTDStat.html"> <code>DTDStat</code></a>
+class scans an input DTD and generates useful statistics for query
+generation. The <a href="../../DTDStat_man.txt">man</a> page of this
+class describes its parameters. The following command shows an example
+for parsing <code>nitf-2-5.dtd</code>. </p>
+      <blockquote>
+        <table>
+          <tbody>
+            <tr bgcolor="#e0e0e0">
+              <td width="100%">
+              <pre><br>% java edu.berkeley.cs.db.yfilterplus.dtdscanner.DTDStat nitf-2-5.dtd nitf-2-5.stat<br></pre>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </blockquote>
+      <li>Generate queries </li>
+      <p> The <a
+ href="../edu/berkeley/cs/db/yfilterplus/querygenerator/PathGenerator.html">
+      <code>PathGenerator</code></a> class reads the statistics
+generated by <code>DTDStat</code>, and generates a set of XPath
+queries according to workload parameters. Refer to the <a
+ href="../../PathGenerator_man.txt">man</a> page for a description of
+these parameters. For example, the following command generates 10
+queries, each of which contains two value-based predicates and one
+nested path expression. </p>
+      <blockquote>
+        <table>
+          <tbody>
+            <tr bgcolor="#e0e0e0">
+              <td width="100%">
+              <pre><br>% java edu.berkeley.cs.db.yfilterplus.querygenerator.PathGenerator <br>       nitf-2-5.stat queries1.txt 10 6 0.2 0.2 --num_predicates=2 --num_nestedpaths=1<br></pre>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </blockquote>
+      <p>In the next sample, the command generates 10 <i>distinct</i>
+queries, each of which contains value-based predicates and nested paths
+according to a probabilistic model. This model is good for generating
+mixed query workloads. </p>
+      <blockquote>
+        <table>
+          <tbody>
+            <tr bgcolor="#e0e0e0">
+              <td width="100%">
+              <pre><br>% java edu.berkeley.cs.db.yfilterplus.querygenerator.PathGenerator <br>       nitf-2-5.stat queries2.txt 10 6 0.2 0.2 --prob_predicate=0.03 --prob_nestedpath=0.2 --distinct=TRUE<br></pre>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </blockquote>
+      <li>Call the test driver</li>
+      <p>Call the <a
+ href="../edu/berkeley/cs/db/yfilter/filter/EXfilter.html"><code>EXfilter</code></a>
+class to run the test (again, see the <a href="../../EXfilter_man.txt">man</a>
+page for a description of the parameters). Alternatively, compose a
+script to run the test, following the examples shown in the previous
+section. </p>
+    </ul>
+    </div>
+  </li>
+  <li>
+    <h2><a name="mozTocId324233" class="mozTocH2"></a>Known Bugs and
+Limitations</h2>
+  </li>
+  <div style="margin-left: 40px;">A known bug of YFilter relates to
+handling a
+positional predicate (e.g., <code>[1]</code> or <code>[position( )
+&lt; 5]</code>) that occurs after some other predicates in the same
+location step. An example is <code>/nitf//person[text() =
+"John"][1]</code>. YFilter currently does not handle such positional
+predicates properly. It is important to note, however, that YFilter
+does handle positional predicates that appear as the first or the only
+predicate in a location step, e.g., <code>/nitf//person[1]</code>, and
+  <code>/nitf//person[1][text( ) = "John"]</code>.
+  <p>YFilter also has the following known limitations: </p>
+  <ul>
+    <li>It does not support namespaces.</li>
+    <li>It currently supports only one level of nesting of path
+expressions, i.e., a nested path expression does not contain nested
+path expressions itself. </li>
+    <li>It does not terminate the processing of a document before the
+parse is
+complete.</li>
+    <li>It materializes each XML document on-the-fly until the
+processing of this document is finished. There is no data pruning.<br>
+    </li>
+  </ul>
+  <p>We expect to fix these problems in our future releases. The users
+concerned with these issues can fix them by improving the code, or
+contact us for the details of the solutions. </p>
+  </div>
+  <li>
+    <h2><a name="mozTocId857946" class="mozTocH2"></a>More Information</h2>
+  </li>
+  <div style="margin-left: 40px;">
+  <ul>
+    <li>The YFilter home page is <a
+ href="http://yfilter.cs.berkeley.edu">here</a>
+.</li>
+    <li>The API documentation can be found <a href="../index.html">here</a>.</li>
+<!--    <li>The technical reference manual can be found <a
+ href="Technical_Reference.html">here</a>.</li> -->
+    <li>Associated research publications can be found <a
+ href="../../doc">here</a>.</li>
+  </ul>
+  </div>
+</ol>
+</body>
+</html>

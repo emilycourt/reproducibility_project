@@ -1,0 +1,56 @@
+NAME
+	 edu.berkeley.cs.db.yfilterplus.querygenerator.PathGenerator 
+	 - Generates a set of XPath paths according to workload parameters. 
+
+SYNOPSIS
+	 java edu.berkeley.cs.db.yfilterplus.querygenerator.PathGenerator 
+		(DTD_FILE | STAT_FILE)	OUTPUT_FILE	NUM_QUERIES 
+		MAX_QUERY_DEPTH		PROB_WILDCARD	PROB_DOUBLESLASH
+		[options]
+
+PARAMETERS
+
+DTD_FILE | STAT_FILE
+	 File containing the DTD or statistics.
+
+OUTPUT_FILE
+	 Output file.
+
+NUM_QUERIES
+	 Number of queries to be generated.
+
+MAX_QUERY_DEPTH
+	 Maximum query depth.
+
+PROB_WILDCARD
+	 Probability of the wildcard occurrence in each location step.
+
+PROB_DOUBLESLASH
+	 Probability of the double-slash occurrence in each location step.
+
+OPTIONS
+
+--theta=REAL
+	 Distribution of the child elements appearing inside a chosen element.
+	 REAL is between 0 and 1: 0 - uniform distribution; 1 - skewed zipf distribution.
+
+--num_predicates=NUM
+	 Number of predicates per query.
+
+--num_nestedpaths=NUM
+	 Number of nested paths per query.
+
+--prob_predicate=REAL
+	 Probability of each possible predicate appearing in a query.
+
+--prob_nestedpath=REAL
+	 Probability of having a nested path in each location step.
+
+--distinct=VALUE
+	 Whether generated paths are distinct. VALUE can be one of TRUE or FALSE.
+	     NOTE: If this option is not set, the generator assumes the value to be FALSE.
+
+DIAGNOSTICS
+
+BUGS
+
