@@ -27,6 +27,7 @@ RUN apt update && apt install -y --no-install-recommends \
 	git \
 	latexmk \
 	libpng-dev \
+	python3-pip \
 	sudo \
 	time \
 	texlive-base \
@@ -36,6 +37,8 @@ RUN apt update && apt install -y --no-install-recommends \
 	texlive-latex-extra \
 	texlive-publishers \
 	vim
+
+RUN pip3 install matplotlib pandas
 
 # Add user
 RUN useradd -m -G sudo -s /bin/bash repro && echo "repro:repro" | chpasswd
