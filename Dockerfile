@@ -42,7 +42,7 @@ RUN useradd -m -G sudo -s /bin/bash repro && echo "repro:repro" | chpasswd
 USER repro
 WORKDIR /home/repro
 
-# Set up environment variables for Java and YFilter
+# Set up environment variables for Java and YFilter, and add JRE
 ENV JAVA_HOME=/opt/java/openjdk
 ENV YFILTER_HOME=/home/repro/yfilter-1.0
 ENV PATH "${JAVA_HOME}/bin:${YFILTER_HOME}/bin:${PATH}"
@@ -55,7 +55,7 @@ WORKDIR /home/repro
 COPY --chown=repro:repro yfilter-1.0/ yfilter-1.0/
 
 # Get datasets
-COPY --chown=repro:repro queries/ queries/
+COPY --chown=repro:repro data/ data/
 
 # Copy scripts
 COPY --chown=repro:repro --chmod=755 scripts/smoke.sh .
