@@ -58,7 +58,7 @@ COPY --chown=repro:repro yfilter-1.0/ yfilter-1.0/
 COPY --chown=repro:repro data/ data/
 
 # Copy scripts
-COPY --chown=repro:repro --chmod=755 scripts/smoke.sh .
+COPY --chown=repro:repro --chmod=755 scripts/ scripts/
 
 ## Clone the paper from the github repository
 RUN git clone https://github.com/emilycourt/reproducibility_report.git report
