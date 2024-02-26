@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tick
 
@@ -7,7 +8,8 @@ data = pd.read_csv("/home/repro/results/table.txt", sep=" ", names=names, index_
 data = data.assign(MQPT=data["filteringTime"] - data["parsingTime"])
 
 MQPT = data[['NP', 'queries', 'MQPT']]
-plot_data = MQPT.set_index(['queries', 'NP']).unstack()['MQPT'].iloc[:, [2, 1, 0]]
+table_data = plot_data = MQPT.set_index(['queries', 'NP']).unstack()['MQPT']
+plot_data = table_data.iloc[:, [2, 1, 0]]
 
 
 xlabel = 'Number of queries (x1000)'
@@ -25,3 +27,4 @@ plot = plot_data.plot(xlabel=xlabel, ylabel=ylabel, xticks=xticks, style=style, 
 plot.xaxis.set_major_formatter(tick.FuncFormatter(x_fmt))
 
 plt.savefig('replication_figure.png')
+table_data.to_csv('results_table.tex', sep="&", header=False, lineterminator="\\\\\n")
