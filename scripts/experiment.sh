@@ -1,6 +1,6 @@
 #!/bin/bash
 
-JAVA="java -Xmx500M"
+JAVA="java -Xmx250M"
 HOME_REPRO="/home/repro"
 
 ### inputs to this experiment
